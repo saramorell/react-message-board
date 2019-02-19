@@ -23,6 +23,7 @@ class App extends Component {
       return <Message {...m} key={i}
         messages={this.state.messages}
         deleteMessage={this.deleteMessage}
+        editMessage={this.editMessage}
        />
     })
     this.setState({ messages:[...this.state.messages] })
@@ -56,6 +57,27 @@ class App extends Component {
       this.setState({ messages: this.state.messages.filter((message) => message.id !== id) })
     }
 
+    editMessage = async (obj) => {
+      // let data={id, message, name}
+
+      const response =  await fetch(`https://sm-assessment.herokuapp.com/messages/${obj.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(obj),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      })
+      const editedMessage = await response.json()
+      console.log(editedMessage)
+
+      let indexOfEditedMessage = this.state.messages.findIndex(message => message.id === obj.id)
+
+      this.setState({
+          messages: [...this.state.messages.slice(0,indexOfEditedMessage), editedMessage, ...this.state.messages.slice(indexOfEditedMessage + 1)]
+      })
+    }
+
 
 
 
@@ -79,7 +101,6 @@ class App extends Component {
               />}
             </div>
           </div>
-      <h1>Hello!</h1>
       </div>
       </div>
     );
