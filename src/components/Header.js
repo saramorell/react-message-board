@@ -5,7 +5,8 @@ class Header extends Component {
           <nav className="navbar navbar-dark bg-info">
             <div className="navbar-brand">Message Board</div>
             <div>
-            <button type="button" className="btn btn-light">+ New Message</button>
+            <button type="button" className="btn btn-light"
+            onClick={this.props.composeToggle}>+ New Message</button>
             </div>
           </nav>
         )
